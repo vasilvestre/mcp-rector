@@ -1,4 +1,4 @@
-# mcp-rector
+# Rector
 
 MCP server providing tools to query and filter Rector PHP refactoring rules.
 
@@ -6,7 +6,23 @@ MCP server providing tools to query and filter Rector PHP refactoring rules.
 
 ### Quick Start (No Installation Required)
 
-Run the MCP Rector server directly without installation using npx:
+#### GitHub Packages (Recommended)
+
+Run the MCP Rector server directly from GitHub Packages:
+
+```bash
+npx @vsilvestre/mcp-rector
+```
+
+To use a specific version:
+
+```bash
+npx @vsilvestre/mcp-rector@1.0.0
+```
+
+#### npm Registry (Alternative)
+
+If you prefer using the public npm registry without authentication:
 
 ```bash
 npx mcp-rector
@@ -18,10 +34,17 @@ To use a specific version:
 npx mcp-rector@1.0.0
 ```
 
-### Local Installation
+### Global Installation
 
-Alternatively, install globally:
+For permanent installation (supports both registries):
 
+**From GitHub Packages:**
+```bash
+npm install -g @vsilvestre/mcp-rector
+mcp-rector
+```
+
+**From npm:**
 ```bash
 npm install -g mcp-rector
 mcp-rector
@@ -36,6 +59,183 @@ npm install
 npm run build
 ```
 
+## Configuration for MCP Clients
+
+### Claude Desktop (Anthropic)
+
+Add to your Claude Desktop configuration file:
+
+**macOS**: `~/Library/Application Support/Claude/claude_desktop_config.json`
+**Windows**: `%APPDATA%\Claude\claude_desktop_config.json`
+
+**Using GitHub Packages (Recommended):**
+```json
+{
+  "mcpServers": {
+    "rector": {
+      "command": "npx",
+      "args": ["-y", "@vsilvestre/mcp-rector"]
+    }
+  }
+}
+```
+
+**Using npm Registry:**
+```json
+{
+  "mcpServers": {
+    "rector": {
+      "command": "npx",
+      "args": ["-y", "mcp-rector"]
+    }
+  }
+}
+```
+
+For a specific version (e.g., 1.0.0):
+```json
+{
+  "mcpServers": {
+    "rector": {
+      "command": "npx",
+      "args": ["-y", "@vsilvestre/mcp-rector@1.0.0"]
+    }
+  }
+}
+```
+
+After updating the config, restart Claude Desktop to activate the MCP server.
+
+### Cline (VS Code Extension)
+
+Add to your Cline MCP settings:
+
+1. Open VS Code Settings (Cmd/Ctrl + ,)
+2. Search for "Cline: MCP Settings"
+3. Edit `settings.json`:
+
+**Using GitHub Packages (Recommended):**
+```json
+{
+  "cline.mcpServers": {
+    "rector": {
+      "command": "npx",
+      "args": ["-y", "@vsilvestre/mcp-rector"]
+    }
+  }
+}
+```
+
+**Using npm Registry:**
+```json
+{
+  "cline.mcpServers": {
+    "rector": {
+      "command": "npx",
+      "args": ["-y", "mcp-rector"]
+    }
+  }
+}
+```
+
+Alternatively, use the Cline MCP Settings UI to add the server.
+
+### Continue.dev (VS Code/JetBrains Extension)
+
+Add to Continue configuration at `~/.continue/config.json`:
+
+**Using GitHub Packages (Recommended):**
+```json
+{
+  "mcpServers": [
+    {
+      "name": "rector",
+      "command": "npx",
+      "args": ["-y", "@vsilvestre/mcp-rector"]
+    }
+  ]
+}
+```
+
+**Using npm Registry:**
+```json
+{
+  "mcpServers": [
+    {
+      "name": "rector",
+      "command": "npx",
+      "args": ["-y", "mcp-rector"]
+    }
+  ]
+}
+```
+
+### Zed Editor
+
+Add to your Zed settings at `~/.config/zed/settings.json`:
+
+**Using GitHub Packages (Recommended):**
+```json
+{
+  "context_servers": {
+    "rector": {
+      "command": {
+        "path": "npx",
+        "args": ["-y", "@vsilvestre/mcp-rector"]
+      }
+    }
+  }
+}
+```
+
+**Using npm Registry:**
+```json
+{
+  "context_servers": {
+    "rector": {
+      "command": {
+        "path": "npx",
+        "args": ["-y", "mcp-rector"]
+      }
+    }
+  }
+}
+```
+
+### Using Globally Installed Package
+
+If you prefer a global installation instead of npx:
+
+**From GitHub Packages (Recommended):**
+```bash
+npm install -g @vsilvestre/mcp-rector
+```
+
+**From npm Registry:**
+```bash
+npm install -g mcp-rector
+```
+
+Then configure with direct command:
+
+```json
+{
+  "mcpServers": {
+    "rector": {
+      "command": "mcp-rector"
+    }
+  }
+}
+```
+
+### Verifying Configuration
+
+After configuring your MCP client:
+
+1. Restart the application
+2. Check for "mcp-rector" in available tools/context
+3. Look for tools: `list-rector-rules`, `filter-rector-rules`, `search-rector-rules`
+
 ## Testing Locally with MCP Inspector
 
 The [MCP Inspector](https://modelcontextprotocol.io/docs/tools/inspector) is a developer tool for testing MCP servers locally before integrating them with clients.
@@ -48,8 +248,14 @@ npx @modelcontextprotocol/inspector
 
 ### Run the Server with Inspector
 
+**Using GitHub Packages (Recommended):**
 ```bash
-npx @modelcontextprotocol/inspector node build/index.js
+npx @modelcontextprotocol/inspector npx -y @vsilvestre/mcp-rector
+```
+
+**Using npm Registry:**
+```bash
+npx @modelcontextprotocol/inspector npx -y mcp-rector
 ```
 
 This will:

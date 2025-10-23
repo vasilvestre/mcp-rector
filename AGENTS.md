@@ -62,29 +62,55 @@ server.registerTool(
 
 ## Publishing Workflow
 
-### Pre-Publish Checklist
-- [ ] All tests pass: `npm test`
-- [ ] Build succeeds: `npm run build`
-- [ ] Package size <5MB: `npm pack --dry-run`
-- [ ] README is up-to-date with npx instructions
-- [ ] Version number is correct in package.json
+### Automated Publishing (Recommended)
 
-### Version Management
+The repository uses GitHub Actions for automated publishing to **both GitHub Packages (primary) and npm** on merge to `main`:
 
-Bump version using semantic versioning:
+1. **Setup** (One-time):
+   - Create npm automation token at https://www.npmjs.com/settings/tokens
+   - Add as `NPM_TOKEN` secret in GitHub repository settings
+   - GitHub Packages uses built-in `GITHUB_TOKEN` (no extra setup)
+   - See `.github/PUBLISH.md` for detailed setup instructions
 
+2. **Publish New Version**:
+   ```bash
+   # Bump version locally
+   npm version patch  # Bug fixes (1.0.0 -> 1.0.1)
+   npm version minor  # New features (1.0.0 -> 1.1.0)
+   npm version major  # Breaking changes (1.0.0 -> 2.0.0)
+   
+   # Push to trigger workflow
+   git push origin main
+   ```
+
+3. **What Happens**:
+   - GitHub Actions runs lint, typecheck, build, and tests
+   - If version changed, publishes to **GitHub Packages** as `@vsilvestre/mcp-rector` (primary)
+   - If version changed, publishes to **npm** as `mcp-rector` (fallback)
+   - Creates git tag matching new version
+
+### Package Locations
+
+- **GitHub Packages** (Primary): https://github.com/vsilvestre/mcp-rector/packages
+- **npm** (Fallback): https://www.npmjs.com/package/mcp-rector
+
+### Installing from Different Registries
+
+**From GitHub Packages (Recommended):**
 ```bash
-npm version patch  # Bug fixes (1.0.0 -> 1.0.1)
-npm version minor  # New features (1.0.0 -> 1.1.0)
-npm version major  # Breaking changes (1.0.0 -> 2.0.0)
+npx @vsilvestre/mcp-rector
+npm install -g @vsilvestre/mcp-rector
 ```
 
-This automatically:
-- Updates package.json version
-- Creates a git tag (v1.0.1, v1.1.0, etc.)
-- Commits the version change
+**From npm (public, no auth required):**
+```bash
+npx mcp-rector
+npm install -g mcp-rector
+```
 
-### Publishing to npm
+### Manual Publishing (Fallback)
+
+If GitHub Actions is unavailable:
 
 1. Ensure you're authenticated with npm:
 ```bash
@@ -93,35 +119,60 @@ npm whoami  # Should return your npm username
 npm login
 ```
 
-2. Publish the package:
+2. Run pre-publish checks:
+```bash
+npm run build
+npm test
+npm pack --dry-run  # Verify package size <5MB
+```
+
+3. Publish to npm:
 ```bash
 npm publish --access public
 ```
 
-3. Push git tags to remote:
+4. Publish to GitHub Packages:
 ```bash
-git push --follow-tags
+# Temporarily modify package.json name to @vsilvestre/mcp-rector
+npm publish --registry=https://npm.pkg.github.com
+# Restore package.json
+```
+
+5. Push git tags to remote:
+```bash
+git tag v1.0.1
+git push --tags
 ```
 
 ### Post-Publish Verification
 
-Verify the package is accessible:
+Verify packages are accessible:
 
 ```bash
-# View package info on npm
+# npm registry
 npm view mcp-rector
-
-# Test npx execution with published package
 npx mcp-rector
+
+# GitHub Packages
+npm view @vsilvestre/mcp-rector --registry=https://npm.pkg.github.com
 
 # Test specific version
 npx mcp-rector@1.0.0
+npx @vsilvestre/mcp-rector@1.0.0
 ```
 
 ### Troubleshooting Publishing
 
-- **403 Forbidden**: Check npm authentication with `npm whoami`
-- **Package name taken**: Choose alternative name or use scoped package `@username/mcp-rector`
+**GitHub Actions Issues:**
+- **Workflow doesn't publish**: Ensure package.json version was incremented
+- **NPM_TOKEN error**: Verify secret is set correctly in repository settings
+- **GitHub Packages fails**: Check workflow has `packages: write` permission
+- **Permission denied**: Check workflow permissions in repository settings → Actions → General
+
+**Manual Publishing Issues:**
+- **403 Forbidden (npm)**: Check npm authentication with `npm whoami`
+- **403 Forbidden (GitHub)**: Ensure `GITHUB_TOKEN` has packages write permission
+- **Package name taken**: Choose alternative name or use scoped package
 - **2FA required**: Ensure 2FA token is provided during `npm publish`
 - **Git tag conflicts**: Use `git tag -d v1.0.0` to delete local tag, `git push --delete origin v1.0.0` for remote
 
