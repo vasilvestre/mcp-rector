@@ -6,8 +6,6 @@ MCP server providing tools to query and filter Rector PHP refactoring rules.
 
 ### Quick Start (No Installation Required)
 
-#### GitHub Packages (Recommended)
-
 Run the MCP Rector server directly from GitHub Packages:
 
 ```bash
@@ -20,33 +18,12 @@ To use a specific version:
 npx @vsilvestre/mcp-rector@1.0.0
 ```
 
-#### npm Registry (Alternative)
-
-If you prefer using the public npm registry without authentication:
-
-```bash
-npx mcp-rector
-```
-
-To use a specific version:
-
-```bash
-npx mcp-rector@1.0.0
-```
-
 ### Global Installation
 
-For permanent installation (supports both registries):
+For permanent installation:
 
-**From GitHub Packages:**
 ```bash
 npm install -g @vsilvestre/mcp-rector
-mcp-rector
-```
-
-**From npm:**
-```bash
-npm install -g mcp-rector
 mcp-rector
 ```
 
@@ -68,25 +45,12 @@ Add to your Claude Desktop configuration file:
 **macOS**: `~/Library/Application Support/Claude/claude_desktop_config.json`
 **Windows**: `%APPDATA%\Claude\claude_desktop_config.json`
 
-**Using GitHub Packages (Recommended):**
 ```json
 {
   "mcpServers": {
     "rector": {
       "command": "npx",
       "args": ["-y", "@vsilvestre/mcp-rector"]
-    }
-  }
-}
-```
-
-**Using npm Registry:**
-```json
-{
-  "mcpServers": {
-    "rector": {
-      "command": "npx",
-      "args": ["-y", "mcp-rector"]
     }
   }
 }
@@ -114,25 +78,12 @@ Add to your Cline MCP settings:
 2. Search for "Cline: MCP Settings"
 3. Edit `settings.json`:
 
-**Using GitHub Packages (Recommended):**
 ```json
 {
   "cline.mcpServers": {
     "rector": {
       "command": "npx",
       "args": ["-y", "@vsilvestre/mcp-rector"]
-    }
-  }
-}
-```
-
-**Using npm Registry:**
-```json
-{
-  "cline.mcpServers": {
-    "rector": {
-      "command": "npx",
-      "args": ["-y", "mcp-rector"]
     }
   }
 }
@@ -144,7 +95,6 @@ Alternatively, use the Cline MCP Settings UI to add the server.
 
 Add to Continue configuration at `~/.continue/config.json`:
 
-**Using GitHub Packages (Recommended):**
 ```json
 {
   "mcpServers": [
@@ -157,24 +107,10 @@ Add to Continue configuration at `~/.continue/config.json`:
 }
 ```
 
-**Using npm Registry:**
-```json
-{
-  "mcpServers": [
-    {
-      "name": "rector",
-      "command": "npx",
-      "args": ["-y", "mcp-rector"]
-    }
-  ]
-}
-```
-
 ### Zed Editor
 
 Add to your Zed settings at `~/.config/zed/settings.json`:
 
-**Using GitHub Packages (Recommended):**
 ```json
 {
   "context_servers": {
@@ -188,32 +124,12 @@ Add to your Zed settings at `~/.config/zed/settings.json`:
 }
 ```
 
-**Using npm Registry:**
-```json
-{
-  "context_servers": {
-    "rector": {
-      "command": {
-        "path": "npx",
-        "args": ["-y", "mcp-rector"]
-      }
-    }
-  }
-}
-```
-
 ### Using Globally Installed Package
 
 If you prefer a global installation instead of npx:
 
-**From GitHub Packages (Recommended):**
 ```bash
 npm install -g @vsilvestre/mcp-rector
-```
-
-**From npm Registry:**
-```bash
-npm install -g mcp-rector
 ```
 
 Then configure with direct command:
@@ -248,14 +164,8 @@ npx @modelcontextprotocol/inspector
 
 ### Run the Server with Inspector
 
-**Using GitHub Packages (Recommended):**
 ```bash
 npx @modelcontextprotocol/inspector npx -y @vsilvestre/mcp-rector
-```
-
-**Using npm Registry:**
-```bash
-npx @modelcontextprotocol/inspector npx -y mcp-rector
 ```
 
 This will:

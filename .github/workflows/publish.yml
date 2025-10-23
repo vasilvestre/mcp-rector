@@ -1,36 +1,38 @@
-name: Publish to npm and GitHub Packages
+name: CI/CD
 
 on:
   push:
     tags:
       - 'v*'
+  pull_request:
+    branches:
+      - main
 
 permissions:
   contents: write
   packages: write
 
 jobs:
-  publish:
+  test:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v5
 
-      - name: Setup Node.js for npm
+      - name: Setup Node.js
         uses: actions/setup-node@v5
         with:
           node-version: '20'
-          registry-url: 'https://registry.npmjs.org'
 
       - name: Install dependencies
         run: npm ci
 
       - name: Lint
-        run: npm run lint --if-present
+        run: npm run lint
 
       - name: Type check
-        run: npm run typecheck --if-present
+        run: npm run typecheck
 
       - name: Build
         run: npm run build
@@ -38,32 +40,33 @@ jobs:
       - name: Test
         run: npm test
 
-      - name: Publish to GitHub Packages
-        run: |
-          # Create temporary package.json with GitHub scope
-          node -e "
-            const pkg = require('./package.json');
-            pkg.name = '@vsilvestre/mcp-rector';
-            pkg.publishConfig = {
-              registry: 'https://npm.pkg.github.com'
-            };
-            require('fs').writeFileSync('package.json', JSON.stringify(pkg, null, 2));
-          "
-          npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  publish:
+    needs: test
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
 
-      - name: Restore original package.json
-        if: always()
-        run: git checkout package.json
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
 
-      - name: Setup Node.js for npm
+      - name: Setup Node.js for GitHub Packages
         uses: actions/setup-node@v5
         with:
           node-version: '20'
-          registry-url: 'https://registry.npmjs.org'
+          registry-url: 'https://npm.pkg.github.com'
 
-      - name: Publish to npm
-        run: npm publish --access public
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Set package version from tag
+        run: |
+          TAG_VERSION=${GITHUB_REF#refs/tags/v}
+          npm version $TAG_VERSION --no-git-tag-version
+
+      - name: Publish to GitHub Packages
+        run: npm publish
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
