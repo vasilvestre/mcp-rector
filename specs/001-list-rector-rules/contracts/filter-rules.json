@@ -1,0 +1,144 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "filter-rector-rules",
+  "description": "Filters Rector rules by rule set category. Returns all rules belonging to a specific category (e.g., 'php80', 'code-quality', 'type-declaration').",
+  "type": "object",
+  "properties": {
+    "input": {
+      "type": "object",
+      "properties": {
+        "ruleSet": {
+          "type": "string",
+          "description": "Rule set identifier to filter by (case-insensitive, accepts kebab-case or PascalCase)",
+          "minLength": 1,
+          "examples": ["php80", "code-quality", "CodeQuality", "type-declaration"]
+        }
+      },
+      "required": ["ruleSet"],
+      "additionalProperties": false
+    },
+    "output": {
+      "type": "object",
+      "properties": {
+        "rules": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "description": "Unique identifier (format: ruleSet/ruleName)"
+              },
+              "name": {
+                "type": "string",
+                "description": "Rule name in PascalCase"
+              },
+              "description": {
+                "type": "string",
+                "description": "Human-readable rule purpose"
+              },
+              "ruleSet": {
+                "type": "string",
+                "description": "Category/rule set name"
+              },
+              "classPath": {
+                "type": "string",
+                "description": "Fully qualified PHP class path"
+              },
+              "status": {
+                "type": "string",
+                "enum": ["stable", "experimental", "deprecated"],
+                "description": "Rule stability status"
+              },
+              "configurable": {
+                "type": "boolean",
+                "description": "Whether rule accepts configuration options"
+              },
+              "tags": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "Extracted keywords for search (lowercase)"
+              }
+            },
+            "required": ["id", "name", "description", "ruleSet", "classPath", "status", "configurable", "tags"]
+          }
+        },
+        "matchedCount": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Number of rules matching the filter"
+        },
+        "ruleSet": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "Rule set identifier (kebab-case)"
+            },
+            "displayName": {
+              "type": "string",
+              "description": "Human-readable rule set name"
+            },
+            "description": {
+              "type": "string",
+              "description": "Rule set purpose summary"
+            },
+            "ruleCount": {
+              "type": "integer",
+              "minimum": 0,
+              "description": "Number of rules in this set"
+            }
+          },
+          "required": ["name", "displayName", "description", "ruleCount"]
+        },
+        "cacheStatus": {
+          "type": "string",
+          "enum": ["fresh", "stale", "error"],
+          "description": "Data freshness indicator"
+        }
+      },
+      "required": ["rules", "matchedCount", "ruleSet", "cacheStatus"]
+    }
+  },
+  "examples": [
+    {
+      "input": {
+        "ruleSet": "php80"
+      },
+      "output": {
+        "rules": [
+          {
+            "id": "php80/AnnotationToAttributeRector",
+            "name": "AnnotationToAttributeRector",
+            "description": "Converts PHPDoc annotations to PHP 8.0 attributes",
+            "ruleSet": "php80",
+            "classPath": "Rector\\Php80\\Rector\\Class_\\AnnotationToAttributeRector",
+            "status": "stable",
+            "configurable": true,
+            "tags": ["annotation", "attribute", "php8", "phpunit"]
+          },
+          {
+            "id": "php80/UnionTypesRector",
+            "name": "UnionTypesRector",
+            "description": "Converts @param/@return union types to native PHP 8.0 union types",
+            "ruleSet": "php80",
+            "classPath": "Rector\\Php80\\Rector\\FunctionLike\\UnionTypesRector",
+            "status": "stable",
+            "configurable": false,
+            "tags": ["union", "type", "php8", "phpunit"]
+          }
+        ],
+        "matchedCount": 42,
+        "ruleSet": {
+          "name": "php80",
+          "displayName": "PHP 8.0",
+          "description": "Migration rules for PHP 8.0 features",
+          "ruleCount": 42
+        },
+        "cacheStatus": "fresh"
+      }
+    }
+  ]
+}

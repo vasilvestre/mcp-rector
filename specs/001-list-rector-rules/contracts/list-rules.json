@@ -1,0 +1,136 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "list-rector-rules",
+  "description": "Returns all available Rector rules grouped by rule sets. Provides comprehensive overview of refactoring rules for PHP code modernization.",
+  "type": "object",
+  "properties": {
+    "input": {
+      "type": "object",
+      "properties": {},
+      "additionalProperties": false,
+      "description": "No input parameters required"
+    },
+    "output": {
+      "type": "object",
+      "properties": {
+        "rules": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "description": "Unique identifier (format: ruleSet/ruleName)"
+              },
+              "name": {
+                "type": "string",
+                "description": "Rule name in PascalCase"
+              },
+              "description": {
+                "type": "string",
+                "description": "Human-readable rule purpose"
+              },
+              "ruleSet": {
+                "type": "string",
+                "description": "Category/rule set name"
+              },
+              "classPath": {
+                "type": "string",
+                "description": "Fully qualified PHP class path"
+              },
+              "status": {
+                "type": "string",
+                "enum": ["stable", "experimental", "deprecated"],
+                "description": "Rule stability status"
+              },
+              "configurable": {
+                "type": "boolean",
+                "description": "Whether rule accepts configuration options"
+              },
+              "tags": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "Extracted keywords for search (lowercase)"
+              }
+            },
+            "required": ["id", "name", "description", "ruleSet", "classPath", "status", "configurable", "tags"]
+          }
+        },
+        "ruleSets": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "Rule set identifier (kebab-case)"
+              },
+              "displayName": {
+                "type": "string",
+                "description": "Human-readable rule set name"
+              },
+              "description": {
+                "type": "string",
+                "description": "Rule set purpose summary"
+              },
+              "ruleCount": {
+                "type": "integer",
+                "minimum": 0,
+                "description": "Number of rules in this set"
+              }
+            },
+            "required": ["name", "displayName", "description", "ruleCount"]
+          }
+        },
+        "totalCount": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Total number of rules returned"
+        },
+        "cacheStatus": {
+          "type": "string",
+          "enum": ["fresh", "stale", "error"],
+          "description": "Data freshness indicator"
+        },
+        "lastUpdated": {
+          "type": "string",
+          "format": "date-time",
+          "description": "ISO 8601 timestamp of last successful fetch"
+        }
+      },
+      "required": ["rules", "ruleSets", "totalCount", "cacheStatus", "lastUpdated"]
+    }
+  },
+  "examples": [
+    {
+      "input": {},
+      "output": {
+        "rules": [
+          {
+            "id": "php80/AnnotationToAttributeRector",
+            "name": "AnnotationToAttributeRector",
+            "description": "Converts PHPDoc annotations to PHP 8.0 attributes",
+            "ruleSet": "php80",
+            "classPath": "Rector\\Php80\\Rector\\Class_\\AnnotationToAttributeRector",
+            "status": "stable",
+            "configurable": true,
+            "tags": ["annotation", "attribute", "php8", "phpunit"]
+          }
+        ],
+        "ruleSets": [
+          {
+            "name": "php80",
+            "displayName": "PHP 8.0",
+            "description": "Migration rules for PHP 8.0 features",
+            "ruleCount": 42
+          }
+        ],
+        "totalCount": 382,
+        "cacheStatus": "fresh",
+        "lastUpdated": "2025-10-23T10:30:00Z"
+      }
+    }
+  ]
+}

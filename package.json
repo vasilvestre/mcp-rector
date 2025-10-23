@@ -1,0 +1,35 @@
+{
+  "name": "mcp-rector",
+  "type": "module",
+  "version": "1.0.0",
+  "main": "index.js",
+  "bin": {
+    "mcp-rector": "./build/index.js"
+  },
+  "scripts": {
+    "build": "tsc && chmod 755 build/index.js",
+    "test": "node --test build/**/*.test.js",
+    "test:watch": "node --test --watch build/**/*.test.js"
+  },
+  "files": ["build"],
+  "keywords": ["mcp", "rector", "php", "refactoring", "model-context-protocol", "llm", "ai"],
+  "author": "Valentin Silvestre <vsilvestre.pro@gmail.com>",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vsilvestre/mcp-rector.git"
+  },
+  "homepage": "https://github.com/vsilvestre/mcp-rector#readme",
+  "bugs": {
+    "url": "https://github.com/vsilvestre/mcp-rector/issues"
+  },
+  "description": "Model Context Protocol server for querying and filtering Rector PHP refactoring rules",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.20.1",
+    "zod": "^3.25.76"
+  },
+  "devDependencies": {
+    "@types/node": "^24.9.1",
+    "typescript": "^5.9.3"
+  }
+}

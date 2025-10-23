@@ -1,0 +1,183 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "MCP Rector Package Configuration",
+  "description": "package.json contract for npx-compatible MCP server",
+  "type": "object",
+  "required": [
+    "name",
+    "version",
+    "description",
+    "main",
+    "type",
+    "bin",
+    "files",
+    "scripts",
+    "keywords",
+    "author",
+    "license",
+    "dependencies"
+  ],
+  "properties": {
+    "name": {
+      "type": "string",
+      "const": "mcp-rector",
+      "description": "Package name on npm registry"
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$",
+      "description": "Semantic version (MAJOR.MINOR.PATCH)",
+      "examples": ["1.0.0", "1.2.3"]
+    },
+    "description": {
+      "type": "string",
+      "minLength": 10,
+      "maxLength": 200,
+      "description": "Short package summary for npm search",
+      "examples": [
+        "Model Context Protocol server for querying Rector PHP refactoring rules"
+      ]
+    },
+    "main": {
+      "type": "string",
+      "const": "index.js",
+      "description": "Entry point for require() calls"
+    },
+    "type": {
+      "type": "string",
+      "const": "module",
+      "description": "ES modules support"
+    },
+    "bin": {
+      "type": "object",
+      "required": ["mcp-rector"],
+      "properties": {
+        "mcp-rector": {
+          "type": "string",
+          "const": "./build/index.js",
+          "description": "Executable entry point for npx"
+        }
+      },
+      "additionalProperties": false,
+      "description": "Command-to-file mappings for npx execution"
+    },
+    "files": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "contains": {
+        "const": "build"
+      },
+      "description": "Directories/files included in published package",
+      "examples": [["build"]]
+    },
+    "scripts": {
+      "type": "object",
+      "required": ["build", "test"],
+      "properties": {
+        "build": {
+          "type": "string",
+          "pattern": "tsc.*chmod.*755.*build/index\\.js",
+          "description": "Compile TypeScript and set executable permissions",
+          "examples": ["tsc && chmod 755 build/index.js"]
+        },
+        "test": {
+          "type": "string",
+          "description": "Run test suite"
+        }
+      },
+      "description": "npm scripts for build, test, and maintenance tasks"
+    },
+    "keywords": {
+      "type": "array",
+      "minItems": 3,
+      "items": {
+        "type": "string"
+      },
+      "description": "Tags for npm search discoverability",
+      "examples": [
+        ["mcp", "rector", "php", "refactoring", "model-context-protocol", "llm"]
+      ]
+    },
+    "author": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Package maintainer name and optional email",
+      "examples": ["John Doe <john@example.com>", "John Doe"]
+    },
+    "license": {
+      "type": "string",
+      "description": "SPDX license identifier",
+      "examples": ["ISC", "MIT", "Apache-2.0"]
+    },
+    "repository": {
+      "type": "object",
+      "required": ["type", "url"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "git"
+        },
+        "url": {
+          "type": "string",
+          "format": "uri",
+          "pattern": "^https://github\\.com/",
+          "description": "Git repository URL"
+        }
+      },
+      "description": "Source code repository information"
+    },
+    "homepage": {
+      "type": "string",
+      "format": "uri",
+      "description": "Project homepage URL",
+      "examples": ["https://github.com/username/mcp-rector#readme"]
+    },
+    "bugs": {
+      "type": "object",
+      "required": ["url"],
+      "properties": {
+        "url": {
+          "type": "string",
+          "format": "uri",
+          "description": "Issue tracker URL"
+        }
+      },
+      "description": "Bug reporting information"
+    },
+    "dependencies": {
+      "type": "object",
+      "required": ["@modelcontextprotocol/sdk", "zod"],
+      "properties": {
+        "@modelcontextprotocol/sdk": {
+          "type": "string",
+          "pattern": "^\\^?\\d+\\.\\d+\\.\\d+$",
+          "description": "MCP SDK for server implementation"
+        },
+        "zod": {
+          "type": "string",
+          "pattern": "^\\^?\\d+\\.\\d+\\.\\d+$",
+          "description": "Schema validation library"
+        }
+      },
+      "description": "Runtime dependencies"
+    },
+    "devDependencies": {
+      "type": "object",
+      "required": ["@types/node", "typescript"],
+      "properties": {
+        "@types/node": {
+          "type": "string",
+          "description": "Node.js type definitions"
+        },
+        "typescript": {
+          "type": "string",
+          "description": "TypeScript compiler"
+        }
+      },
+      "description": "Development dependencies"
+    }
+  },
+  "additionalProperties": true
+}
