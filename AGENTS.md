@@ -64,13 +64,12 @@ server.registerTool(
 
 ### Automated Publishing (Recommended)
 
-The repository uses GitHub Actions for automated publishing to **both GitHub Packages (primary) and npm** on merge to `main`:
+The repository uses GitHub Actions for automated publishing to **both GitHub Packages (primary) and npm** on version changes:
 
 1. **Setup** (One-time):
    - Create npm automation token at https://www.npmjs.com/settings/tokens
    - Add as `NPM_TOKEN` secret in GitHub repository settings
    - GitHub Packages uses built-in `GITHUB_TOKEN` (no extra setup)
-   - See `.github/PUBLISH.md` for detailed setup instructions
 
 2. **Publish New Version**:
    ```bash
@@ -79,15 +78,15 @@ The repository uses GitHub Actions for automated publishing to **both GitHub Pac
    npm version minor  # New features (1.0.0 -> 1.1.0)
    npm version major  # Breaking changes (1.0.0 -> 2.0.0)
    
-   # Push to trigger workflow
+   # Push to main - this automatically creates a tag
    git push origin main
    ```
 
 3. **What Happens**:
-   - GitHub Actions runs lint, typecheck, build, and tests
-   - If version changed, publishes to **GitHub Packages** as `@vsilvestre/mcp-rector` (primary)
-   - If version changed, publishes to **npm** as `mcp-rector` (fallback)
-   - Creates git tag matching new version
+   - **Tag Workflow**: Push to `main` detects version change and creates tag `v1.0.1`
+   - **Publish Workflow**: Tag creation triggers lint, typecheck, build, and tests
+   - Publishes to **GitHub Packages** as `@vsilvestre/mcp-rector` (primary)
+   - Publishes to **npm** as `mcp-rector` (fallback)
 
 ### Package Locations
 
