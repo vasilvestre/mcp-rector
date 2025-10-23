@@ -28,14 +28,11 @@
   "license": "ISC",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/vsilvestre/mcp-rector.git"
+    "url": "git+https://github.com/vasilvestre/mcp-rector.git"
   },
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com"
-  },
-  "homepage": "https://github.com/vsilvestre/mcp-rector#readme",
+  "homepage": "https://github.com/vasilvestre/mcp-rector#readme",
   "bugs": {
-    "url": "https://github.com/vsilvestre/mcp-rector/issues"
+    "url": "https://github.com/vasilvestre/mcp-rector/issues"
   },
   "description": "Model Context Protocol server for querying and filtering Rector PHP refactoring rules",
   "dependencies": {

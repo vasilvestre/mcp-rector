@@ -64,7 +64,7 @@ server.registerTool(
 
 ### Automated Publishing (Recommended)
 
-The repository uses GitHub Actions for automated publishing to **both GitHub Packages (primary) and npm** on version changes:
+The repository uses GitHub Actions for automated publishing to **both GitHub Packages and npm** on version changes:
 
 1. **Setup** (One-time):
    - Create npm automation token at https://www.npmjs.com/settings/tokens
@@ -78,30 +78,29 @@ The repository uses GitHub Actions for automated publishing to **both GitHub Pac
    npm version minor  # New features (1.0.0 -> 1.1.0)
    npm version major  # Breaking changes (1.0.0 -> 2.0.0)
    
-   # Push to main - this automatically creates a tag
-   git push origin main
+   # Push version commit and tag
+   git push origin main --follow-tags
    ```
 
 3. **What Happens**:
-   - **Tag Workflow**: Push to `main` detects version change and creates tag `v1.0.1`
-   - **Publish Workflow**: Tag creation triggers lint, typecheck, build, and tests
-   - Publishes to **GitHub Packages** as `@vasilvestre/mcp-rector` (primary)
-   - Publishes to **npm** as `mcp-rector` (fallback)
+   - Tag push triggers two parallel publish jobs after tests pass
+   - Publishes to **GitHub Packages** as `@vasilvestre/mcp-rector`
+   - Publishes to **npm** as `mcp-rector`
 
 ### Package Locations
 
-- **GitHub Packages** (Primary): https://github.com/vsilvestre/mcp-rector/packages
-- **npm** (Fallback): https://www.npmjs.com/package/mcp-rector
+- **GitHub Packages**: https://github.com/vasilvestre/mcp-rector/packages
+- **npm**: https://www.npmjs.com/package/mcp-rector
 
 ### Installing from Different Registries
 
-**From GitHub Packages (Recommended):**
+**From GitHub Packages:**
 ```bash
 npx @vasilvestre/mcp-rector
 npm install -g @vasilvestre/mcp-rector
 ```
 
-**From npm (public, no auth required):**
+**From npm:**
 ```bash
 npx mcp-rector
 npm install -g mcp-rector
