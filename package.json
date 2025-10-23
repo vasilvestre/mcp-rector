@@ -1,5 +1,5 @@
 {
-  "name": "@vsilvestre/mcp-rector",
+  "name": "@vasilvestre/mcp-rector",
   "type": "module",
   "main": "index.js",
   "bin": {

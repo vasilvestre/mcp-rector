@@ -9,13 +9,13 @@ MCP server providing tools to query and filter Rector PHP refactoring rules.
 Run the MCP Rector server directly from GitHub Packages:
 
 ```bash
-npx @vsilvestre/mcp-rector
+npx @vasilvestre/mcp-rector
 ```
 
 To use a specific version:
 
 ```bash
-npx @vsilvestre/mcp-rector@1.0.0
+npx @vasilvestre/mcp-rector@1.0.0
 ```
 
 ### Global Installation
@@ -23,7 +23,7 @@ npx @vsilvestre/mcp-rector@1.0.0
 For permanent installation:
 
 ```bash
-npm install -g @vsilvestre/mcp-rector
+npm install -g @vasilvestre/mcp-rector
 mcp-rector
 ```
 
@@ -50,7 +50,7 @@ Add to your Claude Desktop configuration file:
   "mcpServers": {
     "rector": {
       "command": "npx",
-      "args": ["-y", "@vsilvestre/mcp-rector"]
+      "args": ["-y", "@vasilvestre/mcp-rector"]
     }
   }
 }
@@ -62,7 +62,7 @@ For a specific version (e.g., 1.0.0):
   "mcpServers": {
     "rector": {
       "command": "npx",
-      "args": ["-y", "@vsilvestre/mcp-rector@1.0.0"]
+      "args": ["-y", "@vasilvestre/mcp-rector@1.0.0"]
     }
   }
 }
@@ -83,7 +83,7 @@ Add to your Cline MCP settings:
   "cline.mcpServers": {
     "rector": {
       "command": "npx",
-      "args": ["-y", "@vsilvestre/mcp-rector"]
+      "args": ["-y", "@vasilvestre/mcp-rector"]
     }
   }
 }
@@ -101,7 +101,7 @@ Add to Continue configuration at `~/.continue/config.json`:
     {
       "name": "rector",
       "command": "npx",
-      "args": ["-y", "@vsilvestre/mcp-rector"]
+      "args": ["-y", "@vasilvestre/mcp-rector"]
     }
   ]
 }
@@ -117,7 +117,7 @@ Add to your Zed settings at `~/.config/zed/settings.json`:
     "rector": {
       "command": {
         "path": "npx",
-        "args": ["-y", "@vsilvestre/mcp-rector"]
+        "args": ["-y", "@vasilvestre/mcp-rector"]
       }
     }
   }
@@ -129,7 +129,7 @@ Add to your Zed settings at `~/.config/zed/settings.json`:
 If you prefer a global installation instead of npx:
 
 ```bash
-npm install -g @vsilvestre/mcp-rector
+npm install -g @vasilvestre/mcp-rector
 ```
 
 Then configure with direct command:
@@ -165,7 +165,7 @@ npx @modelcontextprotocol/inspector
 ### Run the Server with Inspector
 
 ```bash
-npx @modelcontextprotocol/inspector npx -y @vsilvestre/mcp-rector
+npx @modelcontextprotocol/inspector npx -y @vasilvestre/mcp-rector
 ```
 
 This will:

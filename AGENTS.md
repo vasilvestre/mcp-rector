@@ -85,7 +85,7 @@ The repository uses GitHub Actions for automated publishing to **both GitHub Pac
 3. **What Happens**:
    - **Tag Workflow**: Push to `main` detects version change and creates tag `v1.0.1`
    - **Publish Workflow**: Tag creation triggers lint, typecheck, build, and tests
-   - Publishes to **GitHub Packages** as `@vsilvestre/mcp-rector` (primary)
+   - Publishes to **GitHub Packages** as `@vasilvestre/mcp-rector` (primary)
    - Publishes to **npm** as `mcp-rector` (fallback)
 
 ### Package Locations
@@ -97,8 +97,8 @@ The repository uses GitHub Actions for automated publishing to **both GitHub Pac
 
 **From GitHub Packages (Recommended):**
 ```bash
-npx @vsilvestre/mcp-rector
-npm install -g @vsilvestre/mcp-rector
+npx @vasilvestre/mcp-rector
+npm install -g @vasilvestre/mcp-rector
 ```
 
 **From npm (public, no auth required):**
@@ -132,7 +132,7 @@ npm publish --access public
 
 4. Publish to GitHub Packages:
 ```bash
-# Temporarily modify package.json name to @vsilvestre/mcp-rector
+# Temporarily modify package.json name to @vasilvestre/mcp-rector
 npm publish --registry=https://npm.pkg.github.com
 # Restore package.json
 ```
@@ -153,11 +153,11 @@ npm view mcp-rector
 npx mcp-rector
 
 # GitHub Packages
-npm view @vsilvestre/mcp-rector --registry=https://npm.pkg.github.com
+npm view @vasilvestre/mcp-rector --registry=https://npm.pkg.github.com
 
 # Test specific version
 npx mcp-rector@1.0.0
-npx @vsilvestre/mcp-rector@1.0.0
+npx @vasilvestre/mcp-rector@1.0.0
 ```
 
 ### Troubleshooting Publishing
