@@ -189,8 +189,36 @@ Example test flow:
 
 ## Available Tools
 
-- `list-rector-rules`: List all available Rector rules with optional filtering by rule set
-- Additional tools documented in specs/001-list-rector-rules/
+### list-rector-rules
+List all available Rector rules with optional filtering by rule set.
+
+**Parameters:**
+- `ruleSet` (optional): Filter rules by rule set category (e.g., "php80", "code-quality")
+
+### search-rector-rules
+Search Rector rules by keyword with multi-word query support.
+
+**Parameters:**
+- `query` (required): Search keyword or multi-word phrase (e.g., "rename class")
+- `ruleSet` (optional): Filter results by rule set category
+
+**Features:**
+- Multi-word tokenized search: "rename class" matches "RenameClass"
+- Searches across rule names, descriptions, and tags
+- Results sorted by relevance (name matches first, then description, then tags)
+
+**Examples:**
+- `{"query": "rename class"}` → Finds RenameClass, RenameClassConstFetch, etc.
+- `{"query": "type declaration"}` → Finds AddParamTypeDeclaration, ReturnTypeDeclaration, etc.
+- `{"query": "php80", "ruleSet": "php80"}` → Searches within PHP 8.0 rule set only
+
+### filter-rector-rules
+Filter rules by rule set category.
+
+**Parameters:**
+- `ruleSet` (required): Rule set name to filter by (case-insensitive)
+
+Additional tools documented in specs/001-list-rector-rules/
 
 ## Development
 
